@@ -12,13 +12,7 @@ One command finds the MCP clients on your machine and adds Dexra to each (Claude
 npx -y @dexra-dev/mcp install --key dxr_...
 ```
 
-Or add it to Claude Code by hand:
-
-```sh
-claude mcp add --transport http dexra https://api.dexra.dev/mcp --header "Authorization: Bearer dxr_..."
-```
-
-The key is optional. Without it the free tools work and paid tools are paid per call in USDC over [x402](https://x402.org).
+The key is optional. Without it the free tools work and paid tools are paid per call in USDC over [x402](https://x402.org). Name clients to limit it (`install cursor codex`), preview with `--dry-run`, see what was found with `list`, undo with `remove`. To set a client up by hand, use the configs below.
 
 ## Client configs
 
