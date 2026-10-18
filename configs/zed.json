@@ -1,0 +1,8 @@
+{
+  "context_servers": {
+    "dexra": {
+      "url": "https://api.dexra.dev/mcp",
+      "headers": { "Authorization": "Bearer dxr_..." }
+    }
+  }
+}

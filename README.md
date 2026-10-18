@@ -6,7 +6,7 @@ This repository holds the connection details and client configs. The server itse
 
 ## Quick start
 
-One command finds the MCP clients on your machine and adds Dexra to each (Claude Code, Claude Desktop, Cursor, VS Code, Codex, Windsurf, Gemini CLI, Antigravity, Cline):
+One command finds the MCP clients on your machine and adds Dexra to each (Claude Code, Claude Desktop, Cursor, VS Code, Codex, Windsurf, Gemini CLI, Antigravity, Cline, Zed, OpenCode, GitHub Copilot CLI, Kiro, Amp, Qwen Code, Factory Droid, Augment):
 
 ```sh
 npx -y @dexra-dev/mcp install --key dxr_...
@@ -18,7 +18,7 @@ The key is optional. Without it the free tools work and paid tools are paid per 
 
 | Client | Config | Where it goes |
 |---|---|---|
-| Cursor | [`configs/cursor.json`](configs/cursor.json) | `~/.cursor/mcp.json` |
+| Cursor (editor and CLI) | [`configs/cursor.json`](configs/cursor.json) | `~/.cursor/mcp.json` |
 | VS Code | [`configs/vscode.json`](configs/vscode.json) | `mcp.json` in the user settings folder |
 | Claude Desktop | [`configs/claude-desktop.json`](configs/claude-desktop.json) | `claude_desktop_config.json` (runs a local stdio bridge, Node 18+) |
 | Codex | [`configs/codex.toml`](configs/codex.toml) | `~/.codex/config.toml` |
@@ -26,6 +26,14 @@ The key is optional. Without it the free tools work and paid tools are paid per 
 | Gemini CLI | [`configs/gemini-cli.json`](configs/gemini-cli.json) | `~/.gemini/settings.json` |
 | Antigravity | [`configs/antigravity.json`](configs/antigravity.json) | `~/.gemini/config/mcp_config.json` |
 | Cline | [`configs/cline.json`](configs/cline.json) | `cline_mcp_settings.json` |
+| Zed | [`configs/zed.json`](configs/zed.json) | `~/.config/zed/settings.json` |
+| OpenCode | [`configs/opencode.json`](configs/opencode.json) | `~/.config/opencode/opencode.json` |
+| GitHub Copilot CLI | [`configs/copilot-cli.json`](configs/copilot-cli.json) | `~/.copilot/mcp-config.json` |
+| Kiro | [`configs/kiro.json`](configs/kiro.json) | `~/.kiro/settings/mcp.json` |
+| Amp | [`configs/amp.json`](configs/amp.json) | `~/.config/amp/settings.json` |
+| Qwen Code | [`configs/qwen-code.json`](configs/qwen-code.json) | `~/.qwen/settings.json` |
+| Factory Droid | [`configs/factory-droid.json`](configs/factory-droid.json) | `~/.factory/mcp.json` |
+| Augment (Auggie CLI) | [`configs/augment.json`](configs/augment.json) | `~/.augment/settings.json` |
 
 Replace `dxr_...` with your key, or delete the `headers` (or `env`) entry to use the free tools and pay per call.
 

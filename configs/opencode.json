@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "dexra": {
+      "type": "remote",
+      "url": "https://api.dexra.dev/mcp",
+      "enabled": true,
+      "headers": { "Authorization": "Bearer dxr_..." }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "dexra": {
+      "httpUrl": "https://api.dexra.dev/mcp",
+      "headers": { "Authorization": "Bearer dxr_..." }
+    }
+  }
+}
