@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "dexra": {
+      "command": "npx",
+      "args": ["-y", "@dexra-dev/mcp"],
+      "env": { "DEXRA_API_KEY": "dxr_..." }
+    }
+  }
+}

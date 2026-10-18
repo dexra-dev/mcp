@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "dev.dexra/dexra",
+  "title": "Dexra",
+  "description": "Solana DeFi checks for AI agents: launches, holders, wallets, pools, perps and swaps, with verdicts.",
+  "version": "0.1.0",
+  "websiteUrl": "https://dexra.dev",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.dexra.dev/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer dxr_… API key from https://dexra.dev/app/keys. Optional: without it the three free tools work and paid tools are paid per call over x402.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

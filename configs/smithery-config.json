@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "apiKey": {
+      "type": "string",
+      "title": "Dexra API key",
+      "description": "Optional dxr_… key from https://dexra.dev/app/keys. Without it the free tools work and paid tools are paid per call over x402.",
+      "x-from": { "header": "x-api-key" },
+      "x-to": { "header": "x-api-key" }
+    }
+  }
+}

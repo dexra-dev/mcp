@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "dexra": {
+      "type": "streamableHttp",
+      "url": "https://api.dexra.dev/mcp",
+      "headers": { "Authorization": "Bearer dxr_..." },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
