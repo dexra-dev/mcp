@@ -43,7 +43,7 @@ Replace `dxr_...` with your key, or delete the `headers` (or `env`) entry to use
 |---|---|---|
 | `describe_address` | free | What an address is (wallet, pool, token, program), its age and activity, and which tool to call next |
 | `service_stats` | free | Calls, unique payers, volume, uptime and latency of the service |
-| `score_performance` | free | How often launches with each verdict collapsed within 24h against the base rate ([dexra.dev/accuracy](https://dexra.dev/accuracy)) |
+| `score_performance` | free | How often launches with each verdict collapsed within 24h against the base rate ([dexra.dev/accuracy](https://dexra.dev/accuracy?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp)) |
 | `new_launches` | 0.005, 0.01 over 60 min | Fresh launches on pump.fun, LetsBonk, LaunchLab, Meteora DBC, PumpSwap, Raydium AMM and CPMM with creator history and first-buyer funding |
 | `new_launches_batch` | 0.015 | The same checks for a list of known mints |
 | `token_deep_check` | 0.03 | Holder graph, concentration after merging linked wallets, holder and liquidity history, mint authorities and Token-2022 extensions |
@@ -60,7 +60,7 @@ The live list with input schemas is in the [server card](https://api.dexra.dev/.
 
 - **Per call, no account**: a paid tool answers with `isError: true` and the x402 `PaymentRequired` object in `structuredContent`. Pay one of the `accepts` and repeat the call with the payment in `params._meta["x402/payment"]` or the `Payment-Signature` header.
 - **Free account**: 100 credits a day once the email is confirmed. One credit is the cheapest call; a deep analysis uses up to six.
-- **Subscription**: Pro, Scale and Business plans with daily credits, monthly or yearly, paid in USDC. Pro has a 3-day trial. See [dexra.dev](https://dexra.dev) and create a key at [dexra.dev/app/keys](https://dexra.dev/app/keys).
+- **Subscription**: Pro, Scale and Business plans with daily credits, monthly or yearly, paid in USDC. Pro has a 3-day trial. See [dexra.dev](https://dexra.dev?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp) and create a key at [dexra.dev/app/keys](https://dexra.dev/app/keys?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp).
 
 Send the key as `Authorization: Bearer dxr_...` (or `X-Api-Key`) on the MCP connection.
 
@@ -72,6 +72,6 @@ Send the key as `Authorization: Bearer dxr_...` (or `X-Api-Key`) on the MCP conn
 
 ## Links
 
-- Website: https://dexra.dev
-- API docs: https://dexra.dev/docs
+- Website: https://dexra.dev?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp
+- API docs: https://dexra.dev/docs?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp
 - Support: support@dexra.dev
