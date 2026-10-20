@@ -2,7 +2,7 @@
 
 Solana DeFi checks for AI agents: token launches, real holders, wallets, pools, perp markets and swap preflight. Every check returns a verdict (`ok`, `caution`, `avoid` or `unknown`), the reasons behind it, a summary and the evidence.
 
-This repository holds the connection details and client configs. The server itself is hosted at **`https://api.dexra.dev/mcp`** (Streamable HTTP); nothing here needs to be built or run.
+The server is hosted at **`https://api.dexra.dev/mcp`** (Streamable HTTP). This repository holds the client configs and the source of [`@dexra-dev/mcp`](https://www.npmjs.com/package/@dexra-dev/mcp): the one-command installer and a local stdio server that forwards every message to the hosted one, for clients that only start local servers.
 
 ## Quick start
 
@@ -63,6 +63,21 @@ The live list with input schemas is in the [server card](https://api.dexra.dev/.
 - **Subscription**: Pro, Scale and Business plans with daily credits, monthly or yearly, paid in USDC. Pro has a 3-day trial. See [dexra.dev](https://dexra.dev?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp) and create a key at [dexra.dev/app/keys](https://dexra.dev/app/keys?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp).
 
 Send the key as `Authorization: Bearer dxr_...` (or `X-Api-Key`) on the MCP connection.
+
+## Source
+
+| Path | What |
+|---|---|
+| `bin/dexra-mcp.js` | the CLI: `install`, `list`, `remove`, and with no command the stdio server |
+| `src/bridge.js` | stdio ↔ Streamable HTTP bridge to `https://api.dexra.dev/mcp` (`DEXRA_MCP_URL` overrides it) |
+| `src/clients.js`, `src/install.js`, `src/jsonc.js` | where each client keeps its config and how the `dexra` entry is written without touching the rest of the file |
+
+```sh
+node bin/dexra-mcp.js list      # clients found on this machine
+npm test                        # node --test, no dependencies
+```
+
+Node 18 or newer, no dependencies.
 
 ## Directories
 

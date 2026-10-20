@@ -1,0 +1,49 @@
+{
+  "name": "@dexra-dev/mcp",
+  "version": "0.2.1",
+  "description": "Add Dexra (Solana token, wallet, launch, pool and swap checks) to Claude, Cursor, VS Code, Codex, Zed, OpenCode, Copilot CLI, Windsurf, Gemini CLI, Kiro, Amp and other MCP clients in one command, or run it as a local stdio MCP server",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "solana",
+    "rug-check",
+    "token-security",
+    "claude",
+    "cursor",
+    "codex",
+    "zed",
+    "opencode",
+    "copilot",
+    "ai-agent",
+    "x402"
+  ],
+  "homepage": "https://dexra.dev/docs/mcp",
+  "bugs": {
+    "email": "support@dexra.dev"
+  },
+  "license": "MIT",
+  "author": "Dexra <support@dexra.dev>",
+  "type": "module",
+  "bin": {
+    "dexra-mcp": "bin/dexra-mcp.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dexra-dev/mcp.git"
+  }
+}
