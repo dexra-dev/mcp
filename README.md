@@ -12,7 +12,7 @@ One command finds the MCP clients on your machine and adds Dexra to each (Claude
 npx -y @dexra-dev/mcp install --key dxr_...
 ```
 
-The key is optional. Without it the free tools work and paid tools are paid per call in USDC over [x402](https://x402.org). Name clients to limit it (`install cursor codex`), preview with `--dry-run`, see what was found with `list`, undo with `remove`. To set a client up by hand, use the configs below.
+Create an account and API key at [dexra.dev/app/keys](https://dexra.dev/app/keys) to run address, token, wallet, pool, launch, market and swap analyses. `service_stats` and `score_performance` are public reports available without an account. Name clients to limit installation (`install cursor codex`), preview with `--dry-run`, see what was found with `list`, undo with `remove`. To set a client up by hand, use the configs below.
 
 ## Client configs
 
@@ -35,7 +35,7 @@ The key is optional. Without it the free tools work and paid tools are paid per 
 | Factory Droid | [`configs/factory-droid.json`](configs/factory-droid.json) | `~/.factory/mcp.json` |
 | Augment (Auggie CLI) | [`configs/augment.json`](configs/augment.json) | `~/.augment/settings.json` |
 
-Replace `dxr_...` with your key, or delete the `headers` (or `env`) entry to use the free tools and pay per call.
+Replace `dxr_...` with your key. Without the `headers` (or `env`) entry, you can connect, inspect the tool schemas and read the public service reports; analytical tools require account authorization, including the zero-credit `describe_address` tool.
 
 ## Tools
 
@@ -49,6 +49,7 @@ Replace `dxr_...` with your key, or delete the `headers` (or `env`) entry to use
 | `token_deep_check` | 0.03 | Holder graph, concentration after merging linked wallets, holder and liquidity history, mint authorities and Token-2022 extensions |
 | `token_holders_delta` | 0.03 | Who entered and left the top holders over 1h and 24h |
 | `wallet_check` | 0.03 | Known exchange, age, bot or human, launch PnL, sanctions links within two hops |
+| `lp_position_check` | 0.03 | Current range, principal, latest unclaimed fees and bounded mint/vault risks for an Orca Whirlpools Position account; no lifetime PnL, impermanent loss or rewards analysis |
 | `pool_health` | 0.03 | Depth, slippage, 24h liquidity flow, LP return after impermanent loss, bot and sandwich share |
 | `clmm_range_stats` | 0.02 | Time in range, fee yield, impermanent loss and rebalances on Raydium CLMM, Orca and Meteora DLMM |
 | `market_snapshot` | 0.01 | Funding, open interest, liquidations and execution cost across Binance, Bybit, OKX, Hyperliquid, Drift and Jupiter |
@@ -58,11 +59,13 @@ The live list with input schemas is in the [server card](https://api.dexra.dev/.
 
 ## Paying
 
-- **Per call, no account**: a paid tool answers with `isError: true` and the x402 `PaymentRequired` object in `structuredContent`. Pay one of the `accepts` and repeat the call with the payment in `params._meta["x402/payment"]` or the `Payment-Signature` header.
+- **Per call with an account**: after included credits, registered accounts can pay in USDC over [x402](https://x402.org). When a paid tool returns a `PaymentRequired` result, pay one of the `accepts` and repeat the call with the payment in `params._meta["x402/payment"]` or the `Payment-Signature` header, keeping account authorization. An anonymous payment does not grant access to analytical tools.
 - **Free account**: 100 credits a day once the email is confirmed. One credit is the cheapest call; a deep analysis uses up to six.
 - **Subscription**: Pro, Scale and Business plans with daily credits, monthly or yearly, paid in USDC. Pro has a 3-day trial. See [dexra.dev](https://dexra.dev?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp) and create a key at [dexra.dev/app/keys](https://dexra.dev/app/keys?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp).
 
 Send the key as `Authorization: Bearer dxr_...` (or `X-Api-Key`) on the MCP connection.
+
+`describe_address`, `service_stats` and `score_performance` cost zero credits. Only the latter two are public without an account. The live `initialize` instructions and `tools/list` response describe the current access rules and tool inventory.
 
 ## Source
 

@@ -3,7 +3,7 @@
   "name": "dev.dexra/dexra",
   "title": "Dexra",
   "description": "Solana DeFi checks for AI agents: launches, holders, wallets, pools, perps and swaps, with verdicts.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "websiteUrl": "https://dexra.dev",
   "remotes": [
     {
@@ -12,8 +12,8 @@
       "headers": [
         {
           "name": "Authorization",
-          "description": "Bearer dxr_… API key from https://dexra.dev/app/keys. Optional: without it the three free tools work and paid tools are paid per call over x402.",
-          "isRequired": false,
+          "description": "Bearer dxr_… API key from https://dexra.dev/app/keys, required for analytical tools, including zero-credit describe_address. Only service_stats and score_performance are public without an account. Registered accounts can pay per call via x402 after included credits, keeping account authorization.",
+          "isRequired": true,
           "isSecret": true
         }
       ]
