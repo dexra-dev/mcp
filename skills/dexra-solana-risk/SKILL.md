@@ -25,10 +25,10 @@ If the tools aren't configured, say that no analysis ran and use [connection set
 
 | User's question or input | Tool and required inputs | Distinction that matters |
 | --- | --- | --- |
-| Pool liquidity, slippage, liquidity flows or pool-level LP performance | `pool_health`: `pool` | Supply a supported Solana pool account. Current coverage includes Raydium AMM/CPMM/CLMM, Orca Whirlpool, Meteora DLMM and PumpSwap. |
+| [Pool liquidity, slippage, liquidity flows or pool-level LP performance](https://dexra.dev/guides/solana-pool-risk) | `pool_health`: `pool` | Supply a supported Solana pool account. Current coverage includes Raydium AMM/CPMM/CLMM, Orca Whirlpool, Meteora DLMM and PumpSwap. |
 | A proposed concentrated-liquidity range | `clmm_range_stats`: `pool`; optional `width_pct` | Raydium CLMM, Orca Whirlpool or Meteora DLMM. Width means **full** range width as a percent of current price; greater than 0, at most 100, default 10. It isn't a position account or a pair of boundary ticks. |
-| Current range, principal or unclaimed fees of an existing Orca position | `lp_position_check`: `position` | Supply the actual Orca Whirlpools Position account, including a bundled Position account. An NFT mint, pool address or bundle root isn't valid input. |
-| Risk before a particular Solana buy or sell | `swap_preflight`: `mint`, `amount`, `side`; optional `quote` | `side` is `buy` or `sell`; `amount` must be positive. Buy amounts use quote units; sell amounts use token units. `quote` is a quote mint and defaults to SOL. Ask when units or direction are unclear. |
+| [Current range, principal or unclaimed fees of an existing Orca position](https://dexra.dev/guides/orca-lp-position) | `lp_position_check`: `position` | Supply the actual Orca Whirlpools Position account, including a bundled Position account. An NFT mint, pool address or bundle root isn't valid input. |
+| [Risk before a particular Solana buy or sell](https://dexra.dev/guides/solana-swap-preflight) | `swap_preflight`: `mint`, `amount`, `side`; optional `quote` | `side` is `buy` or `sell`; `amount` must be positive. Buy amounts use quote units; sell amounts use token units. `quote` is a quote mint and defaults to SOL. Ask when units or direction are unclear. |
 
 Addresses use Solana base58 strings of 32–44 characters in the current schemas. Shape validation doesn't prove account ownership or protocol support. Send only declared parameters; don't invent `chain`, `wallet`, ticks, slippage tolerance or transaction arguments for these tools.
 
