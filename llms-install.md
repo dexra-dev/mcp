@@ -13,8 +13,10 @@ Dexra is a hosted server. There is nothing to clone, build or run locally.
    }
    ```
 
-2. For analytical tools, ask the user for their Dexra API key (it starts with `dxr_`; create an
-   account and key at https://dexra.dev/app/keys). Add it to the entry:
+2. For analytical tools, direct the user to create/manage their account and key at
+   https://dexra.dev/app/keys. Have them enter it through the client's supported secret or
+   private local configuration handling; don't ask them to paste it into chat. The entry uses
+   this header shape, where `dxr_...` is a placeholder:
 
    ```json
    "headers": { "Authorization": "Bearer dxr_..." }
@@ -31,4 +33,6 @@ Dexra is a hosted server. There is nothing to clone, build or run locally.
    includes `lp_position_check` for Orca Whirlpools Position accounts. Don't call a paid tool
    just to test the connection.
 
-Never write the key anywhere except this settings file, and never print it back to the user.
+Never print the key, place it in a URL or public artifact, or commit a resolved settings file.
+Prefer a client-native secret reference when supported. See https://dexra.dev/docs/mcp for
+current setup and access rules.
