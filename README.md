@@ -1,18 +1,50 @@
-# Dexra MCP server
+# Dexra MCP and Solana risk skill
 
-Solana DeFi checks for AI agents: token launches, real holders, wallets, pools, perp markets and swap preflight. Every check returns a verdict (`ok`, `caution`, `avoid` or `unknown`), the reasons behind it, a summary and the evidence.
+Dexra provides read-only Solana checks for liquidity pools, Orca LP positions, tokens, wallets, launches and proposed swaps. Analytical responses include reasons and coverage; missing data and `unknown` results matter. A risk verdict doesn't guarantee safety or returns. Dexra doesn't sign or send transactions.
 
-The server is hosted at **`https://api.dexra.dev/mcp`** (Streamable HTTP). This repository holds the client configs and the source of [`@dexra-dev/mcp`](https://www.npmjs.com/package/@dexra-dev/mcp): the one-command installer and a local stdio server that forwards every message to the hosted one, for clients that only start local servers.
+Connect to **`https://api.dexra.dev/mcp`** using Streamable HTTP. This repository contains client configs, the source of [`@dexra-dev/mcp`](https://www.npmjs.com/package/@dexra-dev/mcp), and an optional Agent Skill for pool, position and swap questions. See the [canonical MCP docs](https://dexra.dev/docs/mcp) for current setup and account details.
 
-## Quick start
+## Connect the MCP server
 
-One command finds the MCP clients on your machine and adds Dexra to each (Claude Code, Claude Desktop, Cursor, VS Code, Codex, Windsurf, Gemini CLI, Antigravity, Cline, Zed, OpenCode, GitHub Copilot CLI, Kiro, Amp, Qwen Code, Factory Droid, Augment):
+Add the endpoint in your client's remote HTTP MCP settings. Create an account and API key at [dexra.dev/app/keys](https://dexra.dev/app/keys) for analytical tools, then provide `Authorization: Bearer …` or `X-Api-Key` through your client's supported secret/config handling. Don't paste keys into an agent conversation, command history, public config or URL.
+
+Connecting and listing schemas work without a key. Only `service_stats` and `score_performance` are public reports without an account; even zero-credit `describe_address` requires account authorization. Credits and account plans govern analytical use. Check the current tool metadata and account cost before a metered call; anonymous x402 payment doesn't grant analytical access.
+
+For a client that requires stdio, configure `npx -y @dexra-dev/mcp@0.2.1` and supply `DEXRA_API_KEY` through its supported secret environment handling. The bridge forwards requests to the hosted service and needs Node.js 18+.
+
+The package can also install a connection for a named client. For example, after supplying `DEXRA_API_KEY` securely in the local environment:
 
 ```sh
-npx -y @dexra-dev/mcp install --key dxr_...
+npx -y @dexra-dev/mcp@0.2.1 install cursor
 ```
 
-The key is optional. Without it the free tools work and paid tools are paid per call in USDC over [x402](https://x402.org). Name clients to limit it (`install cursor codex`), preview with `--dry-run`, see what was found with `list`, undo with `remove`. To set a client up by hand, use the configs below.
+Without client names, `install` targets every detected client. Choose the intended client and config scope. The installer writes account configuration locally; keep it private. Its existing CLI help contains older access wording, so use the current access rules above and the live server metadata. No package/runtime release accompanies this documentation.
+
+## Optional Agent Skill
+
+[`dexra-solana-risk`](skills/dexra-solana-risk/SKILL.md) helps compatible coding agents select `pool_health`, `clmm_range_stats`, `lp_position_check` or `swap_preflight`, check inputs, and connect MCP when tools are unavailable. It explicitly uses Dexra and preserves a service you already selected. Installing it adds instructions; MCP access, an account and permission to consume credits remain separate.
+
+Review the skill and its [connection reference](skills/dexra-solana-risk/references/connect.md), then preview discovery without installing:
+
+```sh
+npx skills@1.9.0 add dexra-dev/mcp --list
+```
+
+To install it for a selected compatible agent in the current project, for example Claude Code:
+
+```sh
+npx skills@1.9.0 add dexra-dev/mcp --skill dexra-solana-risk --agent claude-code
+```
+
+The reviewed Skills CLI version needs Node.js 22.20+. Choose your agent using its [supported agent names](https://github.com/vercel-labs/skills/blob/main/docs/agents.md). This example uses project scope; `-g` would select a global installation. The CLI collects install telemetry by default; set `DISABLE_TELEMETRY=1` to opt out. See the [official CLI documentation](https://skills.sh/docs/cli).
+
+Example requests after setup:
+
+- “Check this Solana pool's depth and liquidity risks before I supply liquidity.”
+- “Inspect this actual Orca Position account and explain its current range and fees.”
+- “Assess a buy of 0.5 SOL of this mint before I consider a swap.”
+
+The skill asks for missing inputs and account/budget authorization. It doesn't install itself into other agents, execute swaps or promise recommendation rankings. Public GitHub availability and discovery on external skill directories are separate states.
 
 ## Client configs
 
@@ -35,34 +67,26 @@ The key is optional. Without it the free tools work and paid tools are paid per 
 | Factory Droid | [`configs/factory-droid.json`](configs/factory-droid.json) | `~/.factory/mcp.json` |
 | Augment (Auggie CLI) | [`configs/augment.json`](configs/augment.json) | `~/.augment/settings.json` |
 
-Replace `dxr_...` with your key, or delete the `headers` (or `env`) entry to use the free tools and pay per call.
+`dxr_...` is a placeholder. Use the client's supported secret handling, keep resolved configs private, and preserve other server entries. Without the `headers` (or `env`) entry, you can connect, inspect the tool schemas and read the public service reports; analytical tools require account authorization, including the zero-credit `describe_address` tool.
 
 ## Tools
 
-| Tool | Price (USDC) | What it answers |
-|---|---|---|
-| `describe_address` | free | What an address is (wallet, pool, token, program), its age and activity, and which tool to call next |
-| `service_stats` | free | Calls, unique payers, volume, uptime and latency of the service |
-| `score_performance` | free | How often launches with each verdict collapsed within 24h against the base rate ([dexra.dev/accuracy](https://dexra.dev/accuracy?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp)) |
-| `new_launches` | 0.005, 0.01 over 60 min | Fresh launches on pump.fun, LetsBonk, LaunchLab, Meteora DBC, PumpSwap, Raydium AMM and CPMM with creator history and first-buyer funding |
-| `new_launches_batch` | 0.015 | The same checks for a list of known mints |
-| `token_deep_check` | 0.03 | Holder graph, concentration after merging linked wallets, holder and liquidity history, mint authorities and Token-2022 extensions |
-| `token_holders_delta` | 0.03 | Who entered and left the top holders over 1h and 24h |
-| `wallet_check` | 0.03 | Known exchange, age, bot or human, launch PnL, sanctions links within two hops |
-| `pool_health` | 0.03 | Depth, slippage, 24h liquidity flow, LP return after impermanent loss, bot and sandwich share |
-| `clmm_range_stats` | 0.02 | Time in range, fee yield, impermanent loss and rebalances on Raydium CLMM, Orca and Meteora DLMM |
-| `market_snapshot` | 0.01 | Funding, open interest, liquidations and execution cost across Binance, Bybit, OKX, Hyperliquid, Drift and Jupiter |
-| `swap_preflight` | 0.005 | Price impact, sandwich history and Token-2022 traps before a swap |
+The endpoint advertised 13 tools on 2026-11-25. Use the current `tools/list` schemas before calling them.
 
-The live list with input schemas is in the [server card](https://api.dexra.dev/.well-known/mcp/server-card.json); prices and networks are in the [x402 catalog](https://api.dexra.dev/.well-known/x402).
+| Task | Tool | Required input or boundary |
+| --- | --- | --- |
+| Pool liquidity, slippage and pool-level LP performance | `pool_health` | Supported pool account |
+| Concentrated-liquidity range analysis | `clmm_range_stats` | Pool; optional full `width_pct`, greater than 0 and at most 100 |
+| Current Orca position range, principal and unclaimed fees | `lp_position_check` | Actual Whirlpools Position account, including bundled Position accounts; no NFT mint/bundle root, lifetime PnL, IL or rewards analysis |
+| Risk before a buy or sell | `swap_preflight` | Mint, positive amount, side; buy uses quote units, sell uses token units |
+| Identify an address | `describe_address` | Address; account required, zero credits |
+| Token and holder analysis | `token_deep_check`, `token_holders_delta` | Inspect each live schema |
+| Wallet, launch and market questions | `wallet_check`, `new_launches`, `new_launches_batch`, `market_snapshot` | Inspect each live schema and supported scope |
+| Public service reference reports | `service_stats`, `score_performance` | No account required; these don't analyze your pool |
 
-## Paying
+Read the [public server card](https://api.dexra.dev/.well-known/mcp.json) for discovery metadata. Prices and access rules can change; don't treat this table as a billing quote. Only run a metered analysis within your authorized budget, and don't automatically pay or retry a `PaymentRequired` result.
 
-- **Per call, no account**: a paid tool answers with `isError: true` and the x402 `PaymentRequired` object in `structuredContent`. Pay one of the `accepts` and repeat the call with the payment in `params._meta["x402/payment"]` or the `Payment-Signature` header.
-- **Free account**: 100 credits a day once the email is confirmed. One credit is the cheapest call; a deep analysis uses up to six.
-- **Subscription**: Pro, Scale and Business plans with daily credits, monthly or yearly, paid in USDC. Pro has a 3-day trial. See [dexra.dev](https://dexra.dev?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp) and create a key at [dexra.dev/app/keys](https://dexra.dev/app/keys?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp).
-
-Send the key as `Authorization: Bearer dxr_...` (or `X-Api-Key`) on the MCP connection.
+The npm package version (`0.2.1`), live runtime `serverInfo.version` (`0.1.0` at verification), and repository `server.json` descriptor version (`0.1.1`) describe different artifacts. Editing the descriptor doesn't publish a new Official Registry version.
 
 ## Source
 
@@ -87,6 +111,6 @@ Node 18 or newer, no dependencies.
 
 ## Links
 
-- Website: https://dexra.dev?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp
-- API docs: https://dexra.dev/docs?utm_source=github&utm_medium=referral&utm_campaign=catalog&utm_content=mcp
+- Website: https://dexra.dev/
+- MCP docs: https://dexra.dev/docs/mcp
 - Support: support@dexra.dev
